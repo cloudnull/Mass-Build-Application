@@ -141,7 +141,12 @@ if [ "$TTL" ];then
     chmod +x $(pwd)/deleter/delete-$BUILDNAME.sh
 
 # Set Delete
-    at now + $TTL minutes -f "$(pwd)/deleter/delete-$BUILDNAME.sh"
+    if [ $(which at) ];then
+        at now + $TTL minutes -f "$(pwd)/deleter/delete-$BUILDNAME.sh"
+            else
+                echo "The \"at\" command was not found. Timed Deletion will not work."
+                echo "Please delete the the instances using the \"$(pwd)/deleter/delete-$BUILDNAME.sh\" script in $TTL Minutes."
+    fi
 fi
     REST
 QUIT

@@ -13,7 +13,12 @@ Prerequisites :
   * Python => 2.6 but < 3.0
   * Python Module "simplejson"
   * GNU/Core Utilities 
+  * base64
   * curl
+
+Nice to haves : 
+  * at => 3.0
+
   + This repository comes with a statically compiled version of the binary "parallel" which includes it's dependencies. 
   
 The Process by which this application works is simple. All you have to do is Literally fill in the blanks. If you are not wanting to fill in the questions every time you do anything you can fill in the details you would like to be static in the "massinit.cfg" file. This will stream line the operation of the scripts.
