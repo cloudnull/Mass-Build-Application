@@ -14,8 +14,8 @@ What Rackspace API is Capable of :
 .. code-block:: bash
 
    for BUILD in {1..5}; do ./massbuild.sh build$BUILD; sleep 65; done
-   
-  The total time for the "for loop" to run was 5 minutes 25 seconds which resulted in 500 Instances in a Build Status. Out of all the builds in process, 1 Instance went into error mode. The single error was handled with ease because the Mass Build application saves all of the json files used for the build process and creates an easy script for rebuilding any particular instance. The results yielded an average build time of 7 minutes providing all 500 instances in an active state in just under 15 minutes.
+
+The total time for the "for loop" to run was 5 minutes 25 seconds which resulted in 500 Instances in a Build Status. Out of all the builds in process, 1 Instance went into error mode. The single error was handled with ease because the Mass Build application saves all of the json files used for the build process and creates an easy script for rebuilding any particular instance. The results yielded an average build time of 7 minutes providing all 500 instances in an active state in just under 15 minutes.
   
 Limitations : 
   1 The Build process that I used was building stock instances from Rackspace Provided Images. The "multi" data center function requires that the Image UUID be the same in both data centers. This limitation would make it impossible to spin up Instances based on a Snapshot Image in both data centers. However you could simply do 2 builds one in each datacenter.  To accommodate this, simply leave the imageid variable blank in the "massinit.cfg" file which will force the application to ask you what image you want to build from. You could also change this argument to a command line variable like "$1", as I had done in my 500 Instance Build.
