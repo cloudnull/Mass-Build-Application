@@ -51,7 +51,7 @@ echo "Rebooting the entire Cluster"
     SERIES="logs/urllist-$BUILDNAME.log"
     if [ -f "$SERIES" ];then
         echo "Rebooting Series $SERIES"
-        cat $SERIES | time parallel --retries 3 -k -j0 -X "curl -s -X POST -H \"Content-type: application/json\" -T \"$ACTIONS/HARD-REBOOT.json\" -H \"X-Auth-Token: $TOKEN\" {}/action"
+        cat $SERIES | parallel --retries 3 -k -j0 -X "curl -s -X POST -H \"Content-type: application/json\" -T \"$ACTIONS/HARD-REBOOT.json\" -H \"X-Auth-Token: $TOKEN\" {}/action"
         REST;
             else
                 echo -e "\nFailed to find the build Series : $BUILDNAME\nIf you specify the correct build series we will be happy to reboot it.\n"
@@ -77,7 +77,7 @@ echo "Resizing the entire Cluster"
     SERIES="logs/urllist-$BUILDNAME.log"
     if [ -f "$SERIES" ];then
         echo "Resizing Series $SERIES"
-        cat $SERIES | time parallel --retries 3 -k -j0 -X "curl -s -X POST -H \"Content-type: application/json\" -T \"$ACTIONS/$BUILDNAME-RESIZE.json\" -H \"X-Auth-Token: $TOKEN\" {}/action"
+        cat $SERIES | parallel --retries 3 -k -j0 -X "curl -s -X POST -H \"Content-type: application/json\" -T \"$ACTIONS/$BUILDNAME-RESIZE.json\" -H \"X-Auth-Token: $TOKEN\" {}/action"
         rm $ACTIONS/$BUILDNAME-RESIZE.json
         REST;
             else
@@ -98,7 +98,7 @@ echo "Resizing the entire Cluster"
     SERIES="logs/urllist-$BUILDNAME.log"
     if [ -f "$SERIES" ];then
         echo "Confirming Resize of $SERIES series" 
-        cat $SERIES | time parallel --retries 3 -k -j0 -X "curl -s -X POST -H \"Content-type: application/json\" -T \"$ACTIONS/CONFIRM-RESIZE.json\" -H \"X-Auth-Token: $TOKEN\" {}/action"
+        cat $SERIES | parallel --retries 3 -k -j0 -X "curl -s -X POST -H \"Content-type: application/json\" -T \"$ACTIONS/CONFIRM-RESIZE.json\" -H \"X-Auth-Token: $TOKEN\" {}/action"
         REST;
             else
                 echo -e "\nFailed to find the build Series : $BUILDNAME\nIf you specify the correct build series we will be happy to reboot it.\n"
@@ -116,7 +116,7 @@ elif [ "$OPTIONS" == "revert" ];then
     SERIES="logs/urllist-$BUILDNAME.log"
     if [ -f "$SERIES" ];then
         echo "Reverting the Resize of $BUILDNAME series" 
-        cat $SERIES | time parallel --retries 3 -k -j0 -X "curl -s -X POST -H \"Content-type: application/json\" -T \"$ACTIONS/REVERT-RESIZE.json\" -H \"X-Auth-Token: $TOKEN\" {}/action"
+        cat $SERIES | parallel --retries 3 -k -j0 -X "curl -s -X POST -H \"Content-type: application/json\" -T \"$ACTIONS/REVERT-RESIZE.json\" -H \"X-Auth-Token: $TOKEN\" {}/action"
         REST;
             else
                 echo -e "\nFailed to find the build Series : $BUILDNAME\nIf you specify the correct build series we will be happy to reboot it.\n"
@@ -146,7 +146,7 @@ echo "Reset Master Password on All Instances within a Build Series."
     SERIES="logs/urllist-$BUILDNAME.log"
     if [ -f "$SERIES" ];then
         echo "Resetting Passwords on $SERIES"
-        cat $SERIES | time parallel --retries 3 -k -j0 -X "curl -s -X POST -H \"Content-type: application/json\" -T \"$ACTIONS/$BUILDNAME-PASSWORDRESET.json\" -H \"X-Auth-Token: $TOKEN\" {}/action"
+        cat $SERIES | parallel --retries 3 -k -j0 -X "curl -s -X POST -H \"Content-type: application/json\" -T \"$ACTIONS/$BUILDNAME-PASSWORDRESET.json\" -H \"X-Auth-Token: $TOKEN\" {}/action"
         $ACTIONS/$BUILDNAME-PASSWORDRESET.json
         REST;
             else

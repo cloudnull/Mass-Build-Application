@@ -48,7 +48,7 @@ fi
 # Get the instance IP addresses 
 for SERIES in $(find logs/ -name urllist-$BUILDNAME*); 
     do
-        cat $SERIES | time parallel --retries 3 -k -j0 -X "curl -s -X GET -H \"X-Auth-Token: $TOKEN\" {} | python -m json.tool | grep -A10 'public' | grep -B1 'version\": 4' | awk -F '\"' '/addr/ {print \$4}'" >> $IPADDRESSES;
+        cat $SERIES | parallel --retries 3 -k -j0 -X "curl -s -X GET -H \"X-Auth-Token: $TOKEN\" {} | python -m json.tool | grep -A10 'public' | grep -B1 'version\": 4' | awk -F '\"' '/addr/ {print \$4}'" >> $IPADDRESSES;
             REST;
 done
 
