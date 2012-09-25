@@ -89,16 +89,16 @@ fi
 
 # Paralled Build
 if [ "$DC" == "multi" ];then
-    seq 1 $NUMSERVERS | parallel --retries 3 -k -j0 -X "echo -n \"Server Build $BUILDNAME-ID{} -- \"; curl -s -X POST -H \"X-Auth-Token: $TOKEN\" -T \"$WORKINGTEMP/$BUILDNAME-ID{}.json\" -H \"Content-type: application/json\" $ORDSERVERSURL/servers; echo -e ' -- End Server ID{} \n'" >> logs/$BUILDNAME.log;
+    seq 1 $NUMSERVERS | $TIME parallel --retries 3 -k -j0 -X "echo -n \"Server Build $BUILDNAME-ID{} -- \"; curl -s -X POST -H \"X-Auth-Token: $TOKEN\" -T \"$WORKINGTEMP/$BUILDNAME-ID{}.json\" -H \"Content-type: application/json\" $ORDSERVERSURL/servers; echo -e ' -- End Server ID{} \n'" >> logs/$BUILDNAME.log;
     
     echo -e "REPLACEME=\"\$1\";if [ ! -f \$REPLACEME ];then echo -e \"I failed to find the file you were wanting to rebuild from\"; exit 1; fi; curl -s -X POST -H \"X-Auth-Token: $TOKEN\" -T \"\$REPLACEME\" -H \"Content-type: application/json\" $ORDSERVERSURL/servers" > $WORKINGTEMP/ORD-QUICK-REBUILD.sh
     
-    seq 1 $NUMSERVERS | parallel --retries 3 -k -j0 -X "echo -n \"Server Build $BUILDNAME-ID{} -- \"; curl -s -X POST -H \"X-Auth-Token: $TOKEN\" -T \"$WORKINGTEMP/$BUILDNAME-ID{}.json\" -H \"Content-type: application/json\" $DFWSERVERSURL/servers; echo -e ' -- End Server ID{} \n'" >> logs/$BUILDNAME.log;
+    seq 1 $NUMSERVERS | $TIME parallel --retries 3 -k -j0 -X "echo -n \"Server Build $BUILDNAME-ID{} -- \"; curl -s -X POST -H \"X-Auth-Token: $TOKEN\" -T \"$WORKINGTEMP/$BUILDNAME-ID{}.json\" -H \"Content-type: application/json\" $DFWSERVERSURL/servers; echo -e ' -- End Server ID{} \n'" >> logs/$BUILDNAME.log;
     
     echo -e "REPLACEME=\"\$1\";if [ ! -f \$REPLACEME ];then echo -e \"I failed to find the file you were wanting to rebuild from\"; exit 1; fi; curl -s -X POST -H \"X-Auth-Token: $TOKEN\" -T \"\$REPLACEME\" -H \"Content-type: application/json\" $DFWSERVERSURL/servers" > $WORKINGTEMP/DFW-QUICK-REBUILD.sh
     
         else
-            seq 1 $NUMSERVERS | parallel --retries 3 -k -j0 -X "echo -n \"Server Build $BUILDNAME-ID{} -- \"; curl -s -X POST -H \"X-Auth-Token: $TOKEN\" -T \"$WORKINGTEMP/$BUILDNAME-ID{}.json\" -H \"Content-type: application/json\" $SERVERSURL/servers; echo -e ' -- End Server ID{} \n'" >> logs/$BUILDNAME.log;
+            seq 1 $NUMSERVERS | $TIME parallel --retries 3 -k -j0 -X "echo -n \"Server Build $BUILDNAME-ID{} -- \"; curl -s -X POST -H \"X-Auth-Token: $TOKEN\" -T \"$WORKINGTEMP/$BUILDNAME-ID{}.json\" -H \"Content-type: application/json\" $SERVERSURL/servers; echo -e ' -- End Server ID{} \n'" >> logs/$BUILDNAME.log;
             
             echo -e "REPLACEME=\"\$1\";if [ ! -f \$REPLACEME ];then echo -e \"I failed to find the file you were wanting to rebuild from\"; exit 1; fi; curl -s -X POST -H \"X-Auth-Token: $TOKEN\" -T \"\$REPLACEME\" -H \"Content-type: application/json\" $SERVERSURL/servers" > $WORKINGTEMP/QUICK-REBUILD.sh
 fi

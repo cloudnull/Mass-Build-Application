@@ -42,6 +42,9 @@ QUIT(){
 exit 0
 }
 
+# Check for time
+TIME=$(which time)
+
 # Check for Parallel
 if [ "$(which parallel)" ];then
     echo "Parallel was found on the system"

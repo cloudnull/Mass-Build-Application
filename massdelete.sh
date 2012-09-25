@@ -38,7 +38,7 @@ if [ -f $DELETEACTION ];then
 fi
 
 # Get the instance IP addresses 
-cat logs/urllist-$BUILDNAME.log | parallel --retries 3 -k -j0 -X "curl -s -X DELETE -H \"X-Auth-Token: $TOKEN\" {}" >> $DELETEACTION;
+cat logs/urllist-$BUILDNAME.log | $TIME parallel --retries 3 -k -j0 -X "curl -s -X DELETE -H \"X-Auth-Token: $TOKEN\" {}" >> $DELETEACTION;
 
 REST
 
