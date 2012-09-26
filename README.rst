@@ -19,10 +19,8 @@ Prerequisites :
 Nice to haves : 
   * at => 3.0
 
-  + This repository comes with a statically compiled version of the binary "parallel" which includes it's dependencies. 
-  
-The Process by which this application works is simple. All you have to do is Literally fill in the blanks. If you are not wanting to fill in the questions every time you do anything you can fill in the details you would like to be static in the "massinit.cfg" file. This will stream line the operation of the scripts.
 
+This repository comes with a statically compiled version of the binary "parallel" which includes it's dependencies. The Process by which this application works is simple. All you have to do is Literally fill in the blanks. If you are not wanting to fill in the questions every time you do anything you can fill in the details you would like to be static in the "massinit.cfg" file. This will stream line the operation of the scripts.
 The core function of this repository is to build instances. 
 
 Functions of the scripts :
@@ -36,17 +34,12 @@ Functions of the scripts :
 
 
 Script Definitions :
-  authcheck.sh   : This script was created to authenticate a users credentials against the Rackspace API based on the location the users account was creaeted in. 
-  
-  massactions.sh : This script is a CORE set of actions that the Mass Build Application is capable of.  In order to use this script you will first have to build a series (cluster) of instances using the massbuild.sh script.
-  
-  massbuild.sh   : This script is for building a number of instance.  At Build time the script generates a json directory based on the build name and saves all of the used json files for easy rebuild if needed. It also creates a one line script in the same json directory allowing for building another instance from a single JSON file as needed. If a TTL is set in the "massinit.cfg" file this script will also set an "at" function on the host system for the deletion of the built instances as well as create a script in the "deleter" directory based on the build name for easy removal of the instances.
-  
-  massdelete.sh  : This script is for deleting a build series. The script uses the build name to determine the Servers URL and UUID based on information found within the logs. 
-  
-  massgetip.sh   : This script will pull all Public IPv4 addresses on a Build Series.  This information is obtained though the use of the logs when the instances were built.
-  
-  massinit.cfg   : This is a Configuration file used across all scripts.  In the configuration file you can specify anything any variable that you would like to be hard coded.  You can leave any variable blank, the scripts will ask for the proper information if its needed.
+  :authcheck.sh: This script was created to authenticate a users credentials against the Rackspace API based on the location the users account was creaeted in. 
+  :massactions.sh: This script is a CORE set of actions that the Mass Build Application is capable of.  In order to use this script you will first have to build a series (cluster) of instances using the massbuild.sh script.
+  :massbuild.sh: This script is for building a number of instance.  At Build time the script generates a json directory based on the build name and saves all of the used json files for easy rebuild if needed. It also creates a one line script in the same json directory allowing for building another instance from a single JSON file as needed. If a TTL is set in the "massinit.cfg" file this script will also set an "at" function on the host system for the deletion of the built instances as well as create a script in the "deleter" directory based on the build name for easy removal of the instances.
+  :massdelete.sh: This script is for deleting a build series. The script uses the build name to determine the Servers URL and UUID based on information found within the logs. 
+  :massgetip.sh: This script will pull all Public IPv4 addresses on a Build Series.  This information is obtained though the use of the logs when the instances were built.
+  :massinit.cfg: This is a Configuration file used across all scripts.  In the configuration file you can specify anything any variable that you would like to be hard coded.  You can leave any variable blank, the scripts will ask for the proper information if its needed.
 
 Available Options in the "massinit.cfg"
   * USERNAME - This is your Rackspace Cloud Username for the Cloud Account
