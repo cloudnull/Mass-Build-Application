@@ -19,9 +19,16 @@ Prerequisites :
 Nice to haves : 
   * at => 3.0
 
+Included Applications : 
+  * This repository comes with a statically compiled version of the binary "parallel" which includes it's dependencies. 
+  * Several scripts used for Build, Rebooting, Resizing, and collection information from Next Gen Cloud Servers
 
-This repository comes with a statically compiled version of the binary "parallel" which includes it's dependencies. The Process by which this application works is simple. All you have to do is Literally fill in the blanks. If you are not wanting to fill in the questions every time you do anything you can fill in the details you would like to be static in the "massinit.cfg" file. This will stream line the operation of the scripts.
-The core function of this repository is to build instances. 
+--------
+
+General Overview
+^^^^^^^^^^^^^^^^
+
+The Process by which this application works is simple. All you have to do is Literally fill in the blanks. If you are not wanting to fill in the questions every time you do anything you can fill in the details you would like to be static in the "massinit.cfg" file. This will stream line the operation of the scripts. The core function of this repository is to build instances. 
 
 Functions of the scripts :
   * Building Multiple Instances
@@ -35,6 +42,7 @@ Functions of the scripts :
 
     * Timed Deletion of Instances (Only If Master Stays On-line)
 
+--------
 
 Script Definitions :
   :authcheck.sh: This script was created to authenticate a users credentials against the Rackspace API based on the location the users account was creaeted in. 
@@ -56,11 +64,8 @@ Available Options in the "massinit.cfg"
   :PASSWORD: What is the root password that you are setting for your instances
   :SSHUSERKEY: SSH Public Key for Instance Access, this is a key that will be injected upon build of the instance
   :TTL: The Time the server will exist in Minutes. This function is best used when the Master Build Server remains Active. This function is only used by the scripts if you have some value in the this variable.  If you set a TTL the time will be set in Minutes.
-  
+
+--------
 
 Disclaimer :
-  This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-  See "README/LICENSE.txt" for full disclosure of the license associated with this product. Or goto http://www.gnu.org/licenses/
+  This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. See "README/LICENSE.txt" for full disclosure of the license associated with this product. Or goto http://www.gnu.org/licenses/
