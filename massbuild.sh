@@ -55,6 +55,19 @@ if [ -z "$FLAVORID" ];then
     read -p "Flavor ID Number : " FLAVORID
 fi
 
+# Disk Type 
+if [ -z "$DISKSETUP" ];then
+  read -p "Enter The Disk Setup Type, (auto or manual) : " DISKSETUP
+fi
+if [ "$DISKSETUP" == "auto" ] || [ "$DISKSETUP" == "AUTO" ];then
+  DISKSETUP='AUTO'
+elif [ "$DISKSETUP" == "manual" ] || [ "$DISKSETUP" == "MANUAL" ];then
+  DISKSETUP='MANUAL'
+else 
+  echo "You have to put in a Valid disk type, which would be \"auto\" or \"manual\"."
+  exit 1 
+fi
+
 # The working directory name 
     WORKINGTEMP="$(pwd)/json/$BUILDNAME-json"
 
@@ -64,15 +77,28 @@ fi
 
 echo -e "\nBuilding JSON Files, A record of the build files will be saved in : $WORKINGTEMP\n"
 
-if [ -z "$SSHUSERKEY" ];then
-    # Building the JSON Files for this Operation
-    for JSONFILE in $(eval echo {1..$NUMSERVERS}); do echo "{\"server\" : {\"name\" : \"$BUILDNAME-ID$JSONFILE\", \"imageRef\" : \"$IMAGEID\", \"flavorRef\" : \"$FLAVORID\", \"adminPass\": \"$PASSWORD\", \"OS-DCF:diskConfig\" : \"AUTO\", \"metadata\" : { \"My Server Name\" : \"$BUILDNAME\" }, \"personality\" : [ { \"path\" : \"/root/.ssh/authorized_keys\", \"contents\" : \"$SSHKEY\" } ] }}" > $WORKINGTEMP/$BUILDNAME-ID$JSONFILE.json; done
+if [ "$METADATAKEY" ];then
+    if [ -z "$ADDMETADATAVALUE" ];then
+        ADDMETADATAVALUE="null"
+    fi
+fi
 
+if [ -z "$SSHUSERKEY" ];then
+    if [ -z "$METADATAKEY" ];then
+    # Building the JSON Files for this Operation
+    for JSONFILE in $(eval echo {1..$NUMSERVERS}); do echo "{\"server\" : {\"name\" : \"$BUILDNAME-ID$JSONFILE\", \"imageRef\" : \"$IMAGEID\", \"flavorRef\" : \"$FLAVORID\", \"adminPass\": \"$PASSWORD\", \"OS-DCF:diskConfig\" : \"$DISKSETUP\", \"metadata\" : { \"My Server Name\" : \"$BUILDNAME\" } } }" > $WORKINGTEMP/$BUILDNAME-ID$JSONFILE.json; done
+        else
+            for JSONFILE in $(eval echo {1..$NUMSERVERS}); do echo "{\"server\" : {\"name\" : \"$BUILDNAME-ID$JSONFILE\", \"imageRef\" : \"$IMAGEID\", \"flavorRef\" : \"$FLAVORID\", \"adminPass\": \"$PASSWORD\", \"OS-DCF:diskConfig\" : \"$DISKSETUP\", \"metadata\" : { \"My Server Name\" : \"$BUILDNAME\", \"$METADATAKEY\" : \"$ADDMETADATAVALUE\" } } }" > $WORKINGTEMP/$BUILDNAME-ID$JSONFILE.json; done
+    fi
+    
         else
         SSHKEY=$(echo $SSHUSERKEY | base64 -w 0)
-
-        # Building the JSON Files for this Operation
-        for JSONFILE in $(eval echo {1..$NUMSERVERS}); do echo "{\"server\" : {\"name\" : \"$BUILDNAME-ID$JSONFILE\", \"imageRef\" : \"$IMAGEID\", \"flavorRef\" : \"$FLAVORID\", \"adminPass\": \"$PASSWORD\", \"OS-DCF:diskConfig\" : \"AUTO\", \"metadata\" : { \"My Server Name\" : \"$BUILDNAME\" }, \"personality\" : [ { \"path\" : \"/root/.ssh/authorized_keys\", \"contents\" : \"$SSHKEY\" } ] }}" > $WORKINGTEMP/$BUILDNAME-ID$JSONFILE.json; done
+            if [ -z "$METADATAKEY" ];then
+            # Building the JSON Files for this Operation
+            for JSONFILE in $(eval echo {1..$NUMSERVERS}); do echo "{\"server\" : {\"name\" : \"$BUILDNAME-ID$JSONFILE\", \"imageRef\" : \"$IMAGEID\", \"flavorRef\" : \"$FLAVORID\", \"adminPass\": \"$PASSWORD\", \"OS-DCF:diskConfig\" : \"$DISKSETUP\", \"metadata\" : { \"My Server Name\" : \"$BUILDNAME\" }, \"personality\" : [ { \"path\" : \"/root/.ssh/authorized_keys\", \"contents\" : \"$SSHKEY\" } ] } }" > $WORKINGTEMP/$BUILDNAME-ID$JSONFILE.json; done
+                else
+                    for JSONFILE in $(eval echo {1..$NUMSERVERS}); do echo "{\"server\" : {\"name\" : \"$BUILDNAME-ID$JSONFILE\", \"imageRef\" : \"$IMAGEID\", \"flavorRef\" : \"$FLAVORID\", \"adminPass\": \"$PASSWORD\", \"OS-DCF:diskConfig\" : \"$DISKSETUP\", \"metadata\" : { \"My Server Name\" : \"$BUILDNAME\", \"$METADATAKEY\" : \"$ADDMETADATAVALUE\" }, \"personality\" : [ { \"path\" : \"/root/.ssh/authorized_keys\", \"contents\" : \"$SSHKEY\" } ] } }" > $WORKINGTEMP/$BUILDNAME-ID$JSONFILE.json; done
+            fi
 fi
 
 # Building the Instances 
